@@ -1,0 +1,67 @@
+{
+  "name": "vite-plugin-code-inspector",
+  "version": "1.0.0",
+  "description": "jump to local IDE source code while click the element of browser automatically.",
+  "author": "xsf0105",
+  "license": "MIT",
+  "homepage": "https://github.com/hellof2e/vite-plugin-code-inspector#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hellof2e/vite-plugin-code-inspector.git"
+  },
+  "bugs": {
+    "url": "https://github.com/hellof2e/vite-plugin-code-inspector/issues"
+  },
+  "keywords": [
+    "vue",
+    "react",
+    "angular",
+    "nuxt",
+    "svelte",
+    "vite",
+    "vscode",
+    "vite-plugin",
+    "inspector",
+    "debug"
+  ],
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "require": "./dist/index.cjs",
+      "import": "./dist/index.mjs"
+    },
+    "./src/*": "./src/*"
+  },
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
+  "files": [
+    "dist",
+    "src/load.js",
+    "src/overlay.js"
+  ],
+  "scripts": {
+    "lint": "eslint --fix --ext .js,.ts,.vue,.jsx .",
+    "dev": "tsup --watch",
+    "build": "tsup"
+  },
+  "peerDependencies": {
+    "vite": "^2.0.0-0 || ^3.0.0-0 || ^4.0.0-0 || ^5.0.0-0 || ^6.0.0-0 || ^7.0.0-0"
+  },
+  "dependencies": {
+    "@babel/core": "^7.23.0",
+    "@babel/plugin-proposal-decorators": "^7.23.0",
+    "@babel/plugin-syntax-import-attributes": "^7.22.5",
+    "@babel/plugin-syntax-import-meta": "^7.10.4",
+    "@babel/plugin-transform-typescript": "^7.22.15",
+    "@vue/babel-plugin-jsx": "^1.1.5",
+    "@vue/compiler-dom": "^3.3.4",
+    "kolorist": "^1.8.0",
+    "launch-ide": "^1.2.0",
+    "magic-string": "^0.30.4"
+  },
+  "devDependencies": {
+    "@types/babel__core": "^7.20.2",
+    "unplugin": "^1.5.0"
+  }
+}

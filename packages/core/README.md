@@ -9,6 +9,7 @@
   <a href="https://github.com/hellof2e/vite-plugin-code-inspector/blob/main/LICENSE" target="_blank" rel="noopener noreferrer"><img src="https://badgen.net/github/license/hellof2e/vite-plugin-code-inspector" alt="License" /></a>
 </p>
 
+
 <h1 align="center">
   Vite-plugin-code-inspector
 </h1>
@@ -17,6 +18,7 @@
 <a href="https://stackblitz.com/edit/vitejs-vite-shxjct?file=src%2FApp.vue"><img src="https://developer.stackblitz.com/img/open_in_stackblitz.svg" alt=""></a>
 </p>
 
+
 <p align="center">
   <span>简体中文 | </span>
   <a href="./README.en-US.md">
@@ -24,14 +26,13 @@
   </a>
 </p>
 
+
 ## 介绍
 
-一个 Vite 插件，点击页面元素，IDE 直接打开对应代码文件。支持 Vue2, Vue3, React, Svelte,Angular, SSR 等任何前端工程。
-
-**支持的 Vite 版本**: 2.x, 3.x, 4.x, 5.x, 6.x, 7.x
+一个Vite插件，点击页面元素，IDE直接打开对应代码文件。支持 Vue2, Vue3, React, Svelte,Angular, SSR等任何前端工程。
 
 <p align="center">
-<img src="./preview.gif" alt="preview">
+<img src="./preview.gif" alt="vite-plugin-vue-inspector">
 </p>
 
 ## 安装
@@ -45,79 +46,93 @@ npm install vite-plugin-code-inspector -D
 
 ## 使用
 
+
 ### 快捷键
 
-- Mac: Command(⌘) + Shift(⇧)
-- Windows: Ctrl + Shift(⇧)
+* Mac: Command(⌘) + Shift(⇧)
+* Windows: Ctrl + Shift(⇧)
+
 
 ### Vite 配置
 
 ```ts
 // for Vue2
 
-import { defineConfig } from "vite";
-import { createVuePlugin } from "vite-plugin-vue2";
-import inspector from "vite-plugin-code-inspector";
+import { defineConfig, } from 'vite'
+import { createVuePlugin, } from 'vite-plugin-vue2'
+import inspector from 'vite-plugin-code-inspector'
 
 export default defineConfig({
   plugins: [
     createVuePlugin(),
-    inspector({
-      toggleButtonVisibility: "always", // always默认展示切换icon；never不展示icon（使用快捷键唤醒）
-    }),
+    inspector(),
   ],
-});
+})
 ```
 
 ```ts
 // for Vue3
 
-import { defineConfig } from "vite";
-import Vue from "@vitejs/plugin-vue";
-import inspector from "vite-plugin-code-inspector";
+import { defineConfig } from 'vite'
+import Vue from '@vitejs/plugin-vue'
+import inspector from 'vite-plugin-code-inspector'
 
 export default defineConfig({
-  plugins: [Vue(), inspector()],
-});
+  plugins: [
+    Vue(),
+    inspector()
+  ],
+})
 ```
 
 ```ts
 // for react
-import { defineConfig } from "vite";
-import react from "@vitejs/plugin-react";
-import inspector from "vite-plugin-code-inspector";
+import { defineConfig } from 'vite'
+import react from '@vitejs/plugin-react'
+import inspector from 'vite-plugin-code-inspector'
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  plugins: [react(), inspector()],
-});
+  plugins: [
+    react(),
+    inspector(),
+  ],
+})
 ```
 
 ```ts
 // for preact
-import { defineConfig } from "vite";
-import preact from "@preact/preset-vite";
-import inspector from "vite-plugin-code-inspector";
+import { defineConfig } from 'vite'
+import preact from '@preact/preset-vite'
+import inspector from 'vite-plugin-code-inspector'
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  plugins: [preact(), inspector()],
-});
+  plugins: [
+    preact(),
+    inspector(),
+  ],
+})
 ```
 
+
 ```ts
-// for svelte
-import { defineConfig } from "vite";
-import { svelte } from "@sveltejs/vite-plugin-svelte";
-import inspector from "vite-plugin-code-inspector";
+// for preact
+import { defineConfig } from 'vite'
+import { svelte } from '@sveltejs/vite-plugin-svelte'
+import inspector from 'vite-plugin-code-inspector'
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  plugins: [svelte(), inspector()],
-});
+  plugins: [
+    svelte(),
+    inspector(),
+  ],
+})
 ```
 
 ### Options
+
 
 ```ts
 inspector({
@@ -187,37 +202,13 @@ inspector({
    *
    * @default code (Visual Studio Code)
    */
-  launchEditor?: 'agy' | 'appcode' | 'atom' | 'atom-beta' | 'brackets' | 'clion' | 'code' | 'code-insiders' | 'codium' | 'cursor' | 'emacs' | 'idea' | 'notepad++' | 'pycharm' | 'phpstorm' | 'rubymine' | 'sublime' | 'vim' | 'visualstudio' | 'webstorm' | 'rider'
+  launchEditor?: 'appcode' | 'atom' | 'atom-beta' | 'brackets' | 'clion' | 'code' | 'code-insiders' | 'codium' | 'emacs' | 'idea' | 'notepad++' | 'pycharm' | 'phpstorm' | 'rubymine' | 'sublime' | 'vim' | 'visualstudio' | 'webstorm'
 })
 ```
 
-### 使用 Antigravity 编辑器
-
-如果你使用 [Antigravity](https://antigravity.codes) 作为你的开发编辑器，可以这样配置：
-
-```ts
-import { defineConfig } from "vite";
-import Vue from "@vitejs/plugin-vue";
-import inspector from "vite-plugin-code-inspector";
-
-export default defineConfig({
-  plugins: [
-    Vue(),
-    inspector({
-      launchEditor: "agy", // 设置为 Antigravity
-    }),
-  ],
-});
-```
-
-**前提条件**: 确保 Antigravity 的命令行工具 `agy` 已经安装并在系统 PATH 中可用。
 
 ## Notes
-
-- 本项目由 `vite-plugin-dev-inspector` 重构优化而来。
-- 集成了 `launch-ide` 包，支持多种 IDE（包括 Antigravity, VS Code, Cursor 等）的自动识别与打开。
-- 支持最新的 Vite 7.x 版本。
-- Vite-plugin-code-inspector was inspired by [vite-plugin-vue-inspector](https://github.com/webfansplz/vite-plugin-vue-inspector), but it does not repy on front-end frameworks. It can support any front-end technology stack at the same time, such as Vue 2 & 3, React, Angular, Svelte, Nuxt and SSR.
+Vite-plugin-code-inspector is fork from [vite-plugin-vue-inspector](https://github.com/webfansplz/vite-plugin-vue-inspector), but it does not repy on front-end frameworks. It can support any front-end technology stack at the same time, such as Vue 2 & 3, React, Angular, Svelte, Nuxt and SSR.
 
 ## License
 
