@@ -1,16 +1,16 @@
 {
   "name": "vite-plugin-code-inspector",
-  "version": "1.2.0",
+  "version": "1.0.0",
   "description": "jump to local IDE source code while click the element of browser automatically.",
   "author": "xsf0105",
   "license": "MIT",
-  "homepage": "https://github.com/hellof2e/vite-plugin-code-inspector#readme",
+  "homepage": "https://github.com/jm-niu/vite-plugin-code-inspector/blob/main/README.md",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/hellof2e/vite-plugin-code-inspector.git"
+    "url": "https://github.com/jm-niu/vite-plugin-code-inspector.git"
   },
   "bugs": {
-    "url": "https://github.com/hellof2e/vite-plugin-code-inspector/issues"
+    "url": "https://github.com/jm-niu/vite-plugin-code-inspector/issues"
   },
   "keywords": [
     "vue",
