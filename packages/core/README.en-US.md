@@ -13,13 +13,6 @@
   Vite-plugin-code-inspector
 </h1>
 
-
-<p align="center">
-<a href="https://stackblitz.com/edit/vitejs-vite-shxjct?file=src%2FApp.vue"><img src="https://developer.stackblitz.com/img/open_in_stackblitz.svg" alt=""></a>
-</p>
-
-
-
 ## Introduction
 
 A vite plugin which provides the ability that to jump to the local IDE when you click the element of browser automatically. It supports Vue2, Vue3, React, Svelte,Angular, SSR(All frameworks).
@@ -41,93 +34,74 @@ npm install vite-plugin-code-inspector -D
 
 ## Usage
 
-
 ### Keyboard shortcut (快捷键)
 
-* Mac: Command(⌘) + Shift(⇧)
-* Windows: Ctrl + Shift(⇧)
-
+- Mac: Command(⌘) + Shift(⇧)
+- Windows: Ctrl + Shift(⇧)
 
 ### Configuration Vite
 
 ```ts
 // for Vue2
 
-import { defineConfig, } from 'vite'
-import { createVuePlugin, } from 'vite-plugin-vue2'
-import inspector from 'vite-plugin-code-inspector'
+import { defineConfig } from "vite";
+import { createVuePlugin } from "vite-plugin-vue2";
+import inspector from "vite-plugin-code-inspector";
 
 export default defineConfig({
-  plugins: [
-    createVuePlugin(),
-    inspector(),
-  ],
-})
+  plugins: [createVuePlugin(), inspector()],
+});
 ```
 
 ```ts
 // for Vue3
 
-import { defineConfig } from 'vite'
-import Vue from '@vitejs/plugin-vue'
-import inspector from 'vite-plugin-code-inspector'
+import { defineConfig } from "vite";
+import Vue from "@vitejs/plugin-vue";
+import inspector from "vite-plugin-code-inspector";
 
 export default defineConfig({
-  plugins: [
-    Vue(),
-    inspector()
-  ],
-})
+  plugins: [Vue(), inspector()],
+});
 ```
 
 ```ts
 // for react
-import { defineConfig } from 'vite'
-import react from '@vitejs/plugin-react'
-import inspector from 'vite-plugin-code-inspector'
+import { defineConfig } from "vite";
+import react from "@vitejs/plugin-react";
+import inspector from "vite-plugin-code-inspector";
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  plugins: [
-    react(),
-    inspector(),
-  ],
-})
+  plugins: [react(), inspector()],
+});
 ```
 
 ```ts
 // for preact
-import { defineConfig } from 'vite'
-import preact from '@preact/preset-vite'
-import inspector from 'vite-plugin-code-inspector'
+import { defineConfig } from "vite";
+import preact from "@preact/preset-vite";
+import inspector from "vite-plugin-code-inspector";
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  plugins: [
-    preact(),
-    inspector(),
-  ],
-})
+  plugins: [preact(), inspector()],
+});
 ```
-
 
 ```ts
 // for preact
-import { defineConfig } from 'vite'
-import { svelte } from '@sveltejs/vite-plugin-svelte'
-import inspector from 'vite-plugin-code-inspector'
+import { defineConfig } from "vite";
+import { svelte } from "@sveltejs/vite-plugin-svelte";
+import inspector from "vite-plugin-code-inspector";
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  plugins: [
-    svelte(),
-    inspector(),
-  ],
-})
+  plugins: [svelte(), inspector()],
+});
 ```
 
 ### Options
-
 
 ```ts
 inspector({
@@ -201,8 +175,8 @@ inspector({
 })
 ```
 
-
 ## Notes
+
 Vite-plugin-code-inspector is inspired by [vite-plugin-vue-inspector](https://github.com/webfansplz/vite-plugin-vue-inspector), but it does not repy on front-end frameworks. It can support any front-end technology stack at the same time, such as Vue 2 & 3, React, Angular, Svelte, Nuxt and SSR.
 
 ## License
