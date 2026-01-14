@@ -14,10 +14,6 @@
 </h1>
 
 <p align="center">
-<a href="https://stackblitz.com/edit/vitejs-vite-shxjct?file=src%2FApp.vue"><img src="https://developer.stackblitz.com/img/open_in_stackblitz.svg" alt=""></a>
-</p>
-
-<p align="center">
   <span>简体中文 | </span>
   <a href="./README.en-US.md">
   English

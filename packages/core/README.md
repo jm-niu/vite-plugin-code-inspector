@@ -9,15 +9,9 @@
   <a href="https://github.com/hellof2e/vite-plugin-code-inspector/blob/main/LICENSE" target="_blank" rel="noopener noreferrer"><img src="https://badgen.net/github/license/hellof2e/vite-plugin-code-inspector" alt="License" /></a>
 </p>
 
-
 <h1 align="center">
   Vite-plugin-code-inspector
 </h1>
-
-<p align="center">
-<a href="https://stackblitz.com/edit/vitejs-vite-shxjct?file=src%2FApp.vue"><img src="https://developer.stackblitz.com/img/open_in_stackblitz.svg" alt=""></a>
-</p>
-
 
 <p align="center">
   <span>简体中文 | </span>
@@ -26,10 +20,9 @@
   </a>
 </p>
 
-
 ## 介绍
 
-一个Vite插件，点击页面元素，IDE直接打开对应代码文件。支持 Vue2, Vue3, React, Svelte,Angular, SSR等任何前端工程。
+一个 Vite 插件，点击页面元素，IDE 直接打开对应代码文件。支持 Vue2, Vue3, React, Svelte,Angular, SSR 等任何前端工程。
 
 <p align="center">
 <img src="./preview.gif" alt="vite-plugin-vue-inspector">
@@ -46,93 +39,74 @@ npm install vite-plugin-code-inspector -D
 
 ## 使用
 
-
 ### 快捷键
 
-* Mac: Command(⌘) + Shift(⇧)
-* Windows: Ctrl + Shift(⇧)
-
+- Mac: Command(⌘) + Shift(⇧)
+- Windows: Ctrl + Shift(⇧)
 
 ### Vite 配置
 
 ```ts
 // for Vue2
 
-import { defineConfig, } from 'vite'
-import { createVuePlugin, } from 'vite-plugin-vue2'
-import inspector from 'vite-plugin-code-inspector'
+import { defineConfig } from "vite";
+import { createVuePlugin } from "vite-plugin-vue2";
+import inspector from "vite-plugin-code-inspector";
 
 export default defineConfig({
-  plugins: [
-    createVuePlugin(),
-    inspector(),
-  ],
-})
+  plugins: [createVuePlugin(), inspector()],
+});
 ```
 
 ```ts
 // for Vue3
 
-import { defineConfig } from 'vite'
-import Vue from '@vitejs/plugin-vue'
-import inspector from 'vite-plugin-code-inspector'
+import { defineConfig } from "vite";
+import Vue from "@vitejs/plugin-vue";
+import inspector from "vite-plugin-code-inspector";
 
 export default defineConfig({
-  plugins: [
-    Vue(),
-    inspector()
-  ],
-})
+  plugins: [Vue(), inspector()],
+});
 ```
 
 ```ts
 // for react
-import { defineConfig } from 'vite'
-import react from '@vitejs/plugin-react'
-import inspector from 'vite-plugin-code-inspector'
+import { defineConfig } from "vite";
+import react from "@vitejs/plugin-react";
+import inspector from "vite-plugin-code-inspector";
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  plugins: [
-    react(),
-    inspector(),
-  ],
-})
+  plugins: [react(), inspector()],
+});
 ```
 
 ```ts
 // for preact
-import { defineConfig } from 'vite'
-import preact from '@preact/preset-vite'
-import inspector from 'vite-plugin-code-inspector'
+import { defineConfig } from "vite";
+import preact from "@preact/preset-vite";
+import inspector from "vite-plugin-code-inspector";
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  plugins: [
-    preact(),
-    inspector(),
-  ],
-})
+  plugins: [preact(), inspector()],
+});
 ```
-
 
 ```ts
 // for preact
-import { defineConfig } from 'vite'
-import { svelte } from '@sveltejs/vite-plugin-svelte'
-import inspector from 'vite-plugin-code-inspector'
+import { defineConfig } from "vite";
+import { svelte } from "@sveltejs/vite-plugin-svelte";
+import inspector from "vite-plugin-code-inspector";
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  plugins: [
-    svelte(),
-    inspector(),
-  ],
-})
+  plugins: [svelte(), inspector()],
+});
 ```
 
 ### Options
-
 
 ```ts
 inspector({
@@ -206,8 +180,8 @@ inspector({
 })
 ```
 
-
 ## Notes
+
 Vite-plugin-code-inspector is fork from [vite-plugin-vue-inspector](https://github.com/webfansplz/vite-plugin-vue-inspector), but it does not repy on front-end frameworks. It can support any front-end technology stack at the same time, such as Vue 2 & 3, React, Angular, Svelte, Nuxt and SSR.
 
 ## License
