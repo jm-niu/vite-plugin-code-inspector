@@ -1,6 +1,6 @@
 {
   "name": "vite-plugin-code-inspector",
-  "version": "1.0.0",
+  "version": "1.2.0",
   "description": "jump to local IDE source code while click the element of browser automatically.",
   "author": "xsf0105",
   "license": "MIT",
