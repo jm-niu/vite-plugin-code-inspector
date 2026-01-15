@@ -182,7 +182,10 @@ inspector({
 
 ## Notes
 
-Vite-plugin-code-inspector is fork from [vite-plugin-vue-inspector](https://github.com/webfansplz/vite-plugin-vue-inspector), but it does not repy on front-end frameworks. It can support any front-end technology stack at the same time, such as Vue 2 & 3, React, Angular, Svelte, Nuxt and SSR.
+- This project is refactored and optimized from `vite-plugin-dev-inspector`.
+- Integrated `launch-ide` package, supporting automatic identification and opening of various IDEs (including Antigravity, VS Code, Cursor, etc.).
+- Supports the latest Vite 7.x version.
+- Vite-plugin-code-inspector is inspired by [vite-plugin-vue-inspector](https://github.com/webfansplz/vite-plugin-vue-inspector), but it does not repy on front-end frameworks. It can support any front-end technology stack at the same time, such as Vue 2 & 3, React, Angular, Svelte, Nuxt and SSR.
 
 ## License
 
