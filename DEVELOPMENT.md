@@ -115,3 +115,8 @@ pnpm play:vue3    # 测试 Vue 3
    npx changeset version # 更新版本号
    pnpm release         # 发布到 npm
    ```
+   或者直接发布到 npm
+   ```bash
+   cd packages/core
+   npm publish --access public
+   ```

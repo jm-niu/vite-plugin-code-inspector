@@ -1,5 +1,23 @@
 # vite-plugin-code-inspector
 
+## 1.0.2
+
+### Patch Changes
+
+- 修复 React.Fragment 虚拟 容器注入 data-v-inspector 属性警告问题，增加新增黑名单配置
+
+## 1.0.1
+
+### Patch Changes
+
+- 修复 React.Fragment 虚拟 容器注入 data-v-inspector 属性警告问题，增加新增黑名单配置
+
+## 1.0.1
+
+### Patch Changes
+
+- 修复 React.Fragment 虚拟 容器注入 data-v-inspector 属性警告问题，增加新增黑名单配置
+
 ## 1.0.0
 
 - 初始版本发布

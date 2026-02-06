@@ -88,6 +88,11 @@ interface VitePluginInspectorOptions {
      * @default process.env.LAUNCH_EDITOR ?? code (Visual Studio Code)
      */
     launchEditor?: "agy" | "appcode" | "atom" | "atom-beta" | "brackets" | "clion" | "code" | "code-insiders" | "codium" | "cursor" | "emacs" | "idea" | "notepad++" | "pycharm" | "phpstorm" | "rubymine" | "sublime" | "vim" | "visualstudio" | "webstorm" | "rider" | string;
+    /**
+     * Escape tags in JSX
+     * @default []
+     */
+    hideJsxTags?: string[];
 }
 declare function normalizeComboKeyPrint(toggleComboKey: string): string;
 declare const DEFAULT_INSPECTOR_OPTIONS: VitePluginInspectorOptions;

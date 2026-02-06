@@ -61,7 +61,12 @@ var import_plugin_syntax_import_attributes = __toESM(require("@babel/plugin-synt
 var import_vite = require("vite");
 var EXCLUDE_TAG = ["template", "script", "style"];
 var KEY_DATA = "data-v-inspector";
-async function compileSFCTemplate({ code, id, type }) {
+async function compileSFCTemplate({
+  code,
+  id,
+  type,
+  hideJsxTags = []
+}) {
   const s = new import_magic_string.default(code);
   const relativePath = (0, import_vite.normalizePath)(import_node_path.default.relative(process.cwd(), id));
   const result = await new Promise((resolve) => {
@@ -78,10 +83,7 @@ async function compileSFCTemplate({ code, id, type }) {
                   const insertPosition = node.props.length ? Math.max(...node.props.map((i) => i.loc.end.offset)) : node.loc.start.offset + node.tag.length + 1;
                   const { line, column } = node.loc.start;
                   const content = ` ${KEY_DATA}="${relativePath}:${line}:${column}"`;
-                  s.prependLeft(
-                    insertPosition,
-                    content
-                  );
+                  s.prependLeft(insertPosition, content);
                 }
               }
             }
@@ -97,18 +99,9 @@ async function compileSFCTemplate({ code, id, type }) {
           plugins: [
             import_plugin_syntax_import_meta.default,
             [import_babel_plugin_jsx.default, {}],
-            [
-              import_plugin_transform_typescript.default,
-              { isTSX: true, allowExtensions: true }
-            ],
-            [
-              import_plugin_proposal_decorators.default,
-              { legacy: true }
-            ],
-            [
-              import_plugin_syntax_import_attributes.default,
-              { deprecatedAssertSyntax: true }
-            ]
+            [import_plugin_transform_typescript.default, { isTSX: true, allowExtensions: true }],
+            [import_plugin_proposal_decorators.default, { legacy: true }],
+            [import_plugin_syntax_import_attributes.default, { deprecatedAssertSyntax: true }]
           ]
         });
         (0, import_core.traverse)(ast, {
@@ -118,13 +111,27 @@ async function compileSFCTemplate({ code, id, type }) {
                 (attr) => attr.type !== "JSXSpreadAttribute" && attr.name.name === KEY_DATA
               ))
                 return;
+              const tagName = node.openingElement.name;
+              if (tagName.type === "JSXIdentifier" && tagName.name === "Fragment")
+                return;
+              if (tagName.type === "JSXMemberExpression" && tagName.object.type === "JSXIdentifier" && tagName.object.name === "React" && tagName.property.name === "Fragment")
+                return;
+              if (hideJsxTags.length) {
+                const getTagName = (node2) => {
+                  if (node2.type === "JSXIdentifier")
+                    return node2.name;
+                  if (node2.type === "JSXMemberExpression")
+                    return `${getTagName(node2.object)}.${node2.property.name}`;
+                  return "";
+                };
+                const tagNameStr = getTagName(node.openingElement.name);
+                if (hideJsxTags.includes(tagNameStr))
+                  return;
+              }
               const insertPosition = node.openingElement.end - (node.openingElement.selfClosing ? 2 : 1);
               const { line, column } = node.loc.start;
               const content = ` ${KEY_DATA}="${relativePath}:${line}:${column}"`;
-              s.prependLeft(
-                insertPosition,
-                content
-              );
+              s.prependLeft(insertPosition, content);
             }
           }
         });
@@ -271,8 +278,9 @@ function VitePluginInspector(options = DEFAULT_INSPECTOR_OPTIONS) {
   const {
     vue,
     appendTo,
-    cleanHtml = vue === 3
+    cleanHtml = vue === 3,
     // Only enabled for Vue 3 by default
+    hideJsxTags
   } = normalizedOptions;
   return [
     {
@@ -319,7 +327,8 @@ function VitePluginInspector(options = DEFAULT_INSPECTOR_OPTIONS) {
           return compileSFCTemplate({
             code,
             id: filename,
-            type: isJsx ? "jsx" : "template"
+            type: isJsx ? "jsx" : "template",
+            hideJsxTags
           });
         if (!appendTo)
           return;

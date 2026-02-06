@@ -184,6 +184,12 @@ inspector({
    * @default code (Visual Studio Code)
    */
   launchEditor?: 'agy' | 'appcode' | 'atom' | 'atom-beta' | 'brackets' | 'clion' | 'code' | 'code-insiders' | 'codium' | 'cursor' | 'emacs' | 'idea' | 'notepad++' | 'pycharm' | 'phpstorm' | 'rubymine' | 'sublime' | 'vim' | 'visualstudio' | 'webstorm' | 'rider'
+
+  /**
+   * Escape tags in JSX
+   * @default []
+   */
+  hideJsxTags?: string[]
 })
 ```
 

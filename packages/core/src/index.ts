@@ -133,6 +133,11 @@ export interface VitePluginInspectorOptions {
     | "webstorm"
     | "rider"
     | string;
+  /**
+   * Escape tags in JSX
+   * @default []
+   */
+  hideJsxTags?: string[];
 }
 
 const toggleComboKeysMap = {
@@ -143,7 +148,7 @@ const toggleComboKeysMap = {
 
 function getInspectorPath() {
   const pluginPath = normalizePath(
-    path.dirname(fileURLToPath(import.meta.url))
+    path.dirname(fileURLToPath(import.meta.url)),
   );
   return pluginPath.replace(/\/dist$/, "/src");
 }
@@ -152,7 +157,7 @@ export function normalizeComboKeyPrint(toggleComboKey: string) {
   return toggleComboKey
     .split("-")
     .map(
-      (key) => toggleComboKeysMap[key] || key[0].toUpperCase() + key.slice(1)
+      (key) => toggleComboKeysMap[key] || key[0].toUpperCase() + key.slice(1),
     )
     .join(dim("+"));
 }
@@ -171,7 +176,7 @@ export const DEFAULT_INSPECTOR_OPTIONS: VitePluginInspectorOptions = {
 } as const;
 
 function VitePluginInspector(
-  options: VitePluginInspectorOptions = DEFAULT_INSPECTOR_OPTIONS
+  options: VitePluginInspectorOptions = DEFAULT_INSPECTOR_OPTIONS,
 ): PluginOption {
   const inspectorPath = getInspectorPath();
   const normalizedOptions = {
@@ -184,6 +189,7 @@ function VitePluginInspector(
     vue,
     appendTo,
     cleanHtml = vue === 3, // Only enabled for Vue 3 by default
+    hideJsxTags,
   } = normalizedOptions;
 
   return [
@@ -202,7 +208,7 @@ function VitePluginInspector(
         } else if (importee.startsWith("virtual:dev-inspector-path:")) {
           const resolved = importee.replace(
             "virtual:dev-inspector-path:",
-            `${inspectorPath}/`
+            `${inspectorPath}/`,
           );
           return resolved;
         }
@@ -225,7 +231,7 @@ function VitePluginInspector(
             return await fs.promises.readFile(file, "utf-8");
           else
             console.error(
-              `failed to find file for dev-inspector: ${file}, referenced by id ${id}.`
+              `failed to find file for dev-inspector: ${file}, referenced by id ${id}.`,
             );
         }
       },
@@ -244,6 +250,7 @@ function VitePluginInspector(
             code,
             id: filename,
             type: isJsx ? "jsx" : "template",
+            hideJsxTags,
           });
 
         if (!appendTo) return;
@@ -269,8 +276,8 @@ function VitePluginInspector(
             _printUrls();
             console.log(
               `  ${green("➜")}  ${bold("Vite Inspector")}: ${green(
-                `Press ${yellow(keys)} in App to toggle the Inspector`
-              )}\n`
+                `Press ${yellow(keys)} in App to toggle the Inspector`,
+              )}\n`,
             );
           });
       },
@@ -320,7 +327,7 @@ function VitePluginInspector(
           (_, name) => {
             fn.add(name);
             return "";
-          }
+          },
         );
 
         if (!fn.size) return;
@@ -341,11 +348,11 @@ function _interopVNode(vnode) {
 }
 ${Array.from(fn.values())
   .map(
-    (i) => `function _${i}(...args) { return _interopVNode(__${i}(...args)) }`
+    (i) => `function _${i}(...args) { return _interopVNode(__${i}(...args)) }`,
   )
   .join("\n")}
 /* Injection by vite-plugin-code-inspector End */
-`
+`,
         );
 
         return {
