@@ -1,6 +1,6 @@
 # vite-plugin-code-inspector
 
-## 1.1.0
+## 1.3.0
 
 ### Minor Changes
 
