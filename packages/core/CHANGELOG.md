@@ -1,5 +1,11 @@
 # vite-plugin-code-inspector
 
+## 1.1.0
+
+### Minor Changes
+
+- 适配最新 Vite 8.x（peerDependencies 支持 Vite 2-8）；新增 `reduceMotion` 减动效选项；新增客户端控制 API `enable()`/`disable()` 与 headless 查询 `findInspectorFromElement()`/`findInspectorAtPoint()`（借鉴自 vite-plugin-vue-inspector）；`enabled` 与 `toggleButtonPos` 选项现已生效；修复 `disableInspectorOnEditorOpen` 因缺少 `disable` 方法而失效的问题
+
 ## 1.0.2
 
 ### Patch Changes
