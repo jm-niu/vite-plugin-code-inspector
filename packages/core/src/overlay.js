@@ -1,15 +1,15 @@
-import inspectorOptions from 'virtual:dev-inspector-options'
+import inspectorOptions from "virtual:dev-inspector-options";
 
-const base = inspectorOptions.base
+const base = inspectorOptions.base;
 
-const KEY_DATA = 'data-v-inspector'
-const KEY_PROPS_DATA = '__v_inspector'
+const KEY_DATA = "data-v-inspector";
+const KEY_PROPS_DATA = "__v_inspector";
 
 function getData(el) {
-  return el?.__vnode?.props?.[KEY_PROPS_DATA] ?? el?.getAttribute?.(KEY_DATA)
+  return el?.__vnode?.props?.[KEY_PROPS_DATA] ?? el?.getAttribute?.(KEY_DATA);
 }
 
-const template = document.createElement('template')
+const template = document.createElement("template");
 template.innerHTML = `<style>
   *,::after,::before{
     box-sizing: border-box;
@@ -70,6 +70,11 @@ template.innerHTML = `<style>
   .dev-inspector-button--active svg {
     color: var(--dev-inspector-primary);
   }
+
+  :host(.dev-inspector-reduce-motion) .dev-inspector-floats,
+  :host(.dev-inspector-reduce-motion) .dev-inspector-size-indicator {
+    transition: none;
+  }
   </style>
 
   <div data-v-inspector-ignore="true">
@@ -99,113 +104,134 @@ template.innerHTML = `<style>
       />
     </div>
   </div>
-`
+`;
 
 class DevInspector extends HTMLElement {
   constructor() {
-    super()
-    this.enabled = false
-    this.containerVisible = false
-    this.isDragging = false
-    this.toggleCombo = inspectorOptions.toggleComboKey?.toLowerCase?.()?.split?.('-') ?? false
-    this.disableInspectorOnEditorOpen = inspectorOptions.disableInspectorOnEditorOpen ?? true
+    super();
+    this.enabled = false;
+    this.containerVisible = false;
+    this.isDragging = false;
+    this.toggleCombo =
+      inspectorOptions.toggleComboKey?.toLowerCase?.()?.split?.("-") ?? false;
+    this.disableInspectorOnEditorOpen =
+      inspectorOptions.disableInspectorOnEditorOpen ?? true;
 
-    this.overlayVisible = false
+    this.overlayVisible = false;
     this.linkParams = {
-      file: '',
+      file: "",
       line: 0,
       column: 0,
-    }
+    };
     this.position = {
       x: 0,
       y: 0,
       width: 0,
       height: 0,
-    }
+    };
 
-    this.root = null
+    this.root = null;
   }
 
   switchBtnVisible = () => {
-    const toggleInspectorContainer = this.root.querySelector('#toggle-inspector-container')
-    !this.enabled && toggleInspectorContainer.classList.add('dev-inspector-container--disabled')
-  }
+    const toggleInspectorContainer = this.root.querySelector(
+      "#toggle-inspector-container",
+    );
+    !this.enabled &&
+      toggleInspectorContainer.classList.add(
+        "dev-inspector-container--disabled",
+      );
+  };
 
   toggleEventListener = () => {
-    const listener = this.enabled ? document.body.addEventListener : document.body.removeEventListener
+    const listener = this.enabled
+      ? document.body.addEventListener
+      : document.body.removeEventListener;
 
-    listener?.call(document.body, 'mousemove', this.updateLinkParams)
-    listener?.call(document.body, 'resize', this.closeOverlay, true)
-    listener?.call(document.body, 'click', this.handleClick, true)
-  }
+    listener?.call(document.body, "mousemove", this.updateLinkParams);
+    listener?.call(document.body, "resize", this.closeOverlay, true);
+    listener?.call(document.body, "click", this.handleClick, true);
+  };
 
   // toggle overlay visibility
   toggleOverlayVisibility = () => {
-    const overlayContainer = this.root.querySelector('#overlay-container')
+    const overlayContainer = this.root.querySelector("#overlay-container");
     if (this.enabled)
-      overlayContainer.style.display = (this.overlayVisible && this.linkParams) ? 'block' : 'none'
-    else
-      overlayContainer.style.display = 'none'
-  }
+      overlayContainer.style.display =
+        this.overlayVisible && this.linkParams ? "block" : "none";
+    else overlayContainer.style.display = "none";
+  };
 
   // toggle button style
   toggleBtnVisible = () => {
-    const btn = this.root.querySelector('#inspector-btn')
-    if (this.enabled)
-      btn.classList.add('dev-inspector-button--active')
-    else
-      btn.classList.remove('dev-inspector-button--active')
-  }
+    const btn = this.root.querySelector("#inspector-btn");
+    if (this.enabled) btn.classList.add("dev-inspector-button--active");
+    else btn.classList.remove("dev-inspector-button--active");
+  };
 
   toggleEnabled = () => {
-    this.enabled = !this.enabled
-    this.overlayVisible = false
-    this.toggleEventListener()
+    this.enabled = !this.enabled;
+    this.overlayVisible = false;
+    this.toggleEventListener();
 
-    this.toggleBtnVisible()
-    this.toggleOverlayVisibility()
-  }
+    this.toggleBtnVisible();
+    this.toggleOverlayVisibility();
+  };
+
+  enable = () => {
+    if (!this.enabled) this.toggleEnabled();
+  };
+
+  disable = () => {
+    if (this.enabled) this.toggleEnabled();
+  };
 
   onKeydown = (event) => {
-    if (event.repeat || event.key === undefined)
-      return
+    if (event.repeat || event.key === undefined) return;
 
-    const isCombo = this.toggleCombo?.every(key => this.isKeyActive(key, event))
-    if (isCombo)
-      this.toggleEnabled()
-  }
+    const isCombo = this.toggleCombo?.every((key) =>
+      this.isKeyActive(key, event),
+    );
+    if (isCombo) this.toggleEnabled();
+  };
 
   isKeyActive = (key, event) => {
     switch (key) {
-      case 'shift':
-      case 'control':
-      case 'alt':
-      case 'meta':
-        return event.getModifierState(key.charAt(0).toUpperCase() + key.slice(1))
+      case "shift":
+      case "control":
+      case "alt":
+      case "meta":
+        return event.getModifierState(
+          key.charAt(0).toUpperCase() + key.slice(1),
+        );
       default:
-        return key === event.key.toLowerCase()
+        return key === event.key.toLowerCase();
     }
-  }
+  };
 
   getTargetNode = (e) => {
-    const splitRE = /(.+):([\d]+):([\d]+)$/
-    const path = e.path ?? e.composedPath()
+    const splitRE = /(.+):([\d]+):([\d]+)$/;
+    const path = e.path ?? e.composedPath();
     if (!path) {
       return {
         targetNode: null,
         params: null,
-      }
+      };
     }
-    const ignoreIndex = path.findIndex(node => node?.hasAttribute?.('data-v-inspector-ignore'))
-    const targetNode = path.slice(ignoreIndex + 1).find(node => getData(node))
+    const ignoreIndex = path.findIndex((node) =>
+      node?.hasAttribute?.("data-v-inspector-ignore"),
+    );
+    const targetNode = path
+      .slice(ignoreIndex + 1)
+      .find((node) => getData(node));
     if (!targetNode) {
       return {
         targetNode: null,
         params: null,
-      }
+      };
     }
-    const match = getData(targetNode)?.match(splitRE)
-    const [_, file, line, column] = match || []
+    const match = getData(targetNode)?.match(splitRE);
+    const [_, file, line, column] = match || [];
     return {
       targetNode,
       params: match
@@ -216,93 +242,106 @@ class DevInspector extends HTMLElement {
             title: file,
           }
         : null,
-    }
-  }
+    };
+  };
 
   handleClick = (e) => {
-    const { targetNode, params } = this.getTargetNode(e)
-    if (!targetNode)
-      return
-    e.preventDefault()
-    e.stopPropagation()
-    e.stopImmediatePropagation()
-    const { file, line, column } = params
-    this.overlayVisible = false
+    const { targetNode, params } = this.getTargetNode(e);
+    if (!targetNode) return;
+    e.preventDefault();
+    e.stopPropagation();
+    e.stopImmediatePropagation();
+    const { file, line, column } = params;
+    this.overlayVisible = false;
 
     // close inspector and init state
-    this.toggleEnabled()
+    this.toggleEnabled();
 
     // open in editor
     const url = new URL(
       `${base}__open-in-editor?file=${encodeURIComponent(`${file}:${line}:${column}`)}`,
       import.meta.url,
-    )
+    );
 
-    this.openInEditor(url)
-  }
+    this.openInEditor(url);
+  };
 
   floatsStyle = () => {
-    let margin = 10
-    let x = this.position.x + (this.position.width / 2)
-    let y = this.position.y + this.position.height + 5
+    let margin = 10;
+    let x = this.position.x + this.position.width / 2;
+    let y = this.position.y + this.position.height + 5;
 
-    const floatsRef = this.root.querySelector('#floatsRef')
-    let floatsWidth = floatsRef?.clientWidth ?? 0
-    let floatsHeight = floatsRef?.clientHeight ?? 0
+    const floatsRef = this.root.querySelector("#floatsRef");
+    let floatsWidth = floatsRef?.clientWidth ?? 0;
+    let floatsHeight = floatsRef?.clientHeight ?? 0;
 
-    x = Math.max(margin, x)
-    x = Math.min(x, window.innerWidth - floatsWidth - margin)
+    x = Math.max(margin, x);
+    x = Math.min(x, window.innerWidth - floatsWidth - margin);
 
-    y = Math.max(margin, y)
-    y = Math.min(y, window.innerHeight - floatsHeight - margin)
+    y = Math.max(margin, y);
+    y = Math.min(y, window.innerHeight - floatsHeight - margin);
 
-    floatsRef.style.left = `${x}px`
-    floatsRef.style.top = `${y}px`
+    floatsRef.style.left = `${x}px`;
+    floatsRef.style.top = `${y}px`;
 
-    const overlayContent = this.root.querySelector('#overlay-content')
-    overlayContent.innerHTML = `${this.linkParams.file}:${this.linkParams.line}:${this.linkParams.column}`
-  }
+    const overlayContent = this.root.querySelector("#overlay-content");
+    overlayContent.innerHTML = `${this.linkParams.file}:${this.linkParams.line}:${this.linkParams.column}`;
+  };
 
   // update size indicator style
   sizeIndicatorStyle = () => {
-    const targetNode = this.root.querySelector('.dev-inspector-size-indicator')
-    targetNode.style.left = `${this.position.x}px`
-    targetNode.style.top = `${this.position.y}px`
-    targetNode.style.width = `${this.position.width}px`
-    targetNode.style.height = `${this.position.height}px`
-  }
+    const targetNode = this.root.querySelector(".dev-inspector-size-indicator");
+    targetNode.style.left = `${this.position.x}px`;
+    targetNode.style.top = `${this.position.y}px`;
+    targetNode.style.width = `${this.position.width}px`;
+    targetNode.style.height = `${this.position.height}px`;
+  };
 
   // update mouseover element info
   updateLinkParams = (e) => {
-    const { targetNode, params } = this.getTargetNode(e)
+    const { targetNode, params } = this.getTargetNode(e);
 
     if (targetNode) {
-      const rect = targetNode.getBoundingClientRect()
-      this.overlayVisible = true
-      this.position.x = rect.x
-      this.position.y = rect.y
-      this.position.width = rect.width
-      this.position.height = rect.height
-      this.linkParams = params
+      const rect = targetNode.getBoundingClientRect();
+      this.overlayVisible = true;
+      this.position.x = rect.x;
+      this.position.y = rect.y;
+      this.position.width = rect.width;
+      this.position.height = rect.height;
+      this.linkParams = params;
 
       // update style
-      this.toggleOverlayVisibility()
-      this.floatsStyle()
-      this.sizeIndicatorStyle()
+      this.toggleOverlayVisibility();
+      this.floatsStyle();
+      this.sizeIndicatorStyle();
+    } else {
+      this.closeOverlay();
     }
-    else {
-      this.closeOverlay()
-    }
-  }
+  };
 
   closeOverlay = () => {
-    this.overlayVisible = false
+    this.overlayVisible = false;
     this.linkParams = {
-      file: '',
+      file: "",
       line: 0,
       column: 0,
+    };
+  };
+
+  // headless helpers (borrowed from vite-plugin-vue-inspector)
+  findInspectorFromElement = (el) => {
+    let node = el;
+    while (node) {
+      const match = getData(node)?.match(/(.+):([\d]+):([\d]+)$/);
+      if (match) return { file: match[1], line: +match[2], column: +match[3] };
+      node = node.parentElement;
     }
-  }
+    return null;
+  };
+
+  findInspectorAtPoint = (x, y) => {
+    return this.findInspectorFromElement(document.elementFromPoint(x, y));
+  };
 
   openInEditor = (baseUrl, file, line, column) => {
     /**
@@ -310,85 +349,110 @@ class DevInspector extends HTMLElement {
      * https://github.com/vitejs/vite/blob/d59e1acc2efc0307488364e9f2fad528ec57f204/packages/vite/src/node/server/index.ts#L569-L570
      */
     // https://cloud.tencent.com/developer/article/1835877?areaSource=102001.15&traceId=F7-WEDPvu7nSiKRqwwIwl
-    const _url = baseUrl instanceof URL ? baseUrl : `${baseUrl}/__open-in-editor?file=${encodeURIComponent(`${file}:${line}:${column}`)}`
-    const promise = fetch(
-      _url,
-      {
-        mode: 'no-cors',
-      },
-    )
+    const _url =
+      baseUrl instanceof URL
+        ? baseUrl
+        : `${baseUrl}/__open-in-editor?file=${encodeURIComponent(`${file}:${line}:${column}`)}`;
+    const promise = fetch(_url, {
+      mode: "no-cors",
+    });
 
-    if (this.disableInspectorOnEditorOpen)
-      promise.then(this.disable)
+    if (this.disableInspectorOnEditorOpen) promise.then(this.disable);
 
-    return promise
-  }
+    return promise;
+  };
 
   // button position
   containerPosition = () => {
     // draggable element 选中可拖动的元素
-    const draggableElement = this.root.querySelector('#toggle-inspector-container')
+    const draggableElement = this.root.querySelector(
+      "#toggle-inspector-container",
+    );
 
     // toggle button visibility
-    const { toggleButtonVisibility } = inspectorOptions
-    if (toggleButtonVisibility === 'always' || (toggleButtonVisibility === 'active' && this.enabled)) {
-      draggableElement.style.display = 'block'
-      this.switchBtnVisible()
+    const { toggleButtonVisibility } = inspectorOptions;
+    if (
+      toggleButtonVisibility === "always" ||
+      (toggleButtonVisibility === "active" && this.enabled)
+    ) {
+      draggableElement.style.display = "block";
+      this.switchBtnVisible();
+    } else {
+      draggableElement.style.display = "none";
     }
-    else {
-      draggableElement.style.display = 'none'
-    }
+
+    // toggle button position (borrowed from vite-plugin-vue-inspector)
+    const positionMap = {
+      "top-right": { top: "15px", right: "15px", bottom: "", left: "" },
+      "top-left": { top: "15px", right: "", bottom: "", left: "15px" },
+      "bottom-right": { top: "", right: "15px", bottom: "15px", left: "" },
+      "bottom-left": { top: "", right: "", bottom: "15px", left: "15px" },
+    };
+    const pos =
+      positionMap[inspectorOptions.toggleButtonPos] ?? positionMap["top-right"];
+    for (const key of ["top", "right", "bottom", "left"])
+      draggableElement.style[key] = pos[key];
 
     // draggle element position
-    if (window.localStorage.getItem('inspectorX') && window.localStorage.getItem('inspectorY')) {
-      draggableElement.style.left = window.localStorage.getItem('inspectorX')
-      draggableElement.style.top = window.localStorage.getItem('inspectorY')
+    if (
+      window.localStorage.getItem("inspectorX") &&
+      window.localStorage.getItem("inspectorY")
+    ) {
+      draggableElement.style.left = window.localStorage.getItem("inspectorX");
+      draggableElement.style.top = window.localStorage.getItem("inspectorY");
     }
 
-    let offsetX, offsetY
+    let offsetX, offsetY;
 
-    draggableElement.addEventListener('mousedown', (e) => {
-      this.isDragging = true
-      offsetX = e.clientX - draggableElement.getBoundingClientRect().left
-      offsetY = e.clientY - draggableElement.getBoundingClientRect().top
-    })
+    draggableElement.addEventListener("mousedown", (e) => {
+      this.isDragging = true;
+      offsetX = e.clientX - draggableElement.getBoundingClientRect().left;
+      offsetY = e.clientY - draggableElement.getBoundingClientRect().top;
+    });
 
-    document.addEventListener('mousemove', (e) => {
+    document.addEventListener("mousemove", (e) => {
       if (this.isDragging) {
-        draggableElement.style.left = `${e.clientX - offsetX}px`
-        draggableElement.style.top = `${e.clientY - offsetY}px`
-        window.localStorage.setItem('inspectorX', `${e.clientX - offsetX}px`)
-        window.localStorage.setItem('inspectorY', `${e.clientY - offsetY}px`)
+        draggableElement.style.left = `${e.clientX - offsetX}px`;
+        draggableElement.style.top = `${e.clientY - offsetY}px`;
+        window.localStorage.setItem("inspectorX", `${e.clientX - offsetX}px`);
+        window.localStorage.setItem("inspectorY", `${e.clientY - offsetY}px`);
       }
-    })
+    });
 
-    document.addEventListener('mouseup', () => {
-      if (this.isDragging)
-        this.isDragging = false
-    })
-  }
+    document.addEventListener("mouseup", () => {
+      if (this.isDragging) this.isDragging = false;
+    });
+  };
 
   connectedCallback() {
-    this.root = this.attachShadow({ mode: 'closed' })
-    this.root.appendChild(template.content.cloneNode(true))
+    this.root = this.attachShadow({ mode: "closed" });
+    this.root.appendChild(template.content.cloneNode(true));
 
-    this.toggleCombo && document.body.addEventListener('keydown', this.onKeydown)
+    this.toggleCombo &&
+      document.body.addEventListener("keydown", this.onKeydown);
     // bind keydown event
-    this.toggleEventListener()
+    this.toggleEventListener();
 
     // bind button click event
-    const btn = this.root.querySelector('#inspector-btn')
-    btn.onclick = this.toggleEnabled
+    const btn = this.root.querySelector("#inspector-btn");
+    btn.onclick = this.toggleEnabled;
 
     // toggle overlay visibility
-    this.toggleOverlayVisibility()
+    this.toggleOverlayVisibility();
 
     // button position(draggable)
-    this.containerPosition()
+    this.containerPosition();
+
+    // reduce motion (borrowed from vite-plugin-vue-inspector)
+    if (inspectorOptions.reduceMotion)
+      this.classList.add("dev-inspector-reduce-motion");
+
+    // initial enable state (borrowed from vite-plugin-vue-inspector)
+    if (inspectorOptions.enabled) this.enable();
 
     // Expose control to global
-    window.__DEV_INSPECTOR__ = this
+    window.__DEV_INSPECTOR__ = this;
   }
 }
 
-customElements.define('dev-inspector', DevInspector)
+customElements.define("dev-inspector", DevInspector);

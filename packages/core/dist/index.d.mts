@@ -52,6 +52,11 @@ interface VitePluginInspectorOptions {
      */
     toggleButtonPos?: "top-right" | "top-left" | "bottom-right" | "bottom-left";
     /**
+     * Reduce motion/animation of the inspector overlay
+     * @default false
+     */
+    reduceMotion?: boolean;
+    /**
      * append an import to the module id ending with `appendTo` instead of adding a script into body
      * useful for frameworks that do not support transformIndexHtml hook (e.g. Nuxt3)
      *

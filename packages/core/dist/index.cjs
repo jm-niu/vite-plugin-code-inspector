@@ -35,7 +35,7 @@ __export(src_exports, {
 });
 module.exports = __toCommonJS(src_exports);
 
-// ../../node_modules/.pnpm/tsup@7.3.0_postcss@8.5.6_typescript@5.9.3/node_modules/tsup/assets/cjs_shims.js
+// ../../node_modules/.pnpm/tsup@7.3.0_postcss@8.5.6_supports-color@5.5.0_typescript@5.9.3/node_modules/tsup/assets/cjs_shims.js
 var getImportMetaUrl = () => typeof document === "undefined" ? new URL("file:" + __filename).href : document.currentScript && document.currentScript.src || new URL("main.js", document.baseURI).href;
 var importMetaUrl = /* @__PURE__ */ getImportMetaUrl();
 
@@ -264,6 +264,7 @@ var DEFAULT_INSPECTOR_OPTIONS = {
   toggleComboKey: import_node_process.default.platform === "darwin" ? "meta-shift" : "control-shift",
   toggleButtonVisibility: "always",
   toggleButtonPos: "top-right",
+  reduceMotion: false,
   appendTo: "",
   lazyLoad: false,
   launchEditor: import_node_process.default.env.LAUNCH_EDITOR ?? "code"

@@ -70,6 +70,12 @@ export interface VitePluginInspectorOptions {
   toggleButtonPos?: "top-right" | "top-left" | "bottom-right" | "bottom-left";
 
   /**
+   * Reduce motion/animation of the inspector overlay
+   * @default false
+   */
+  reduceMotion?: boolean;
+
+  /**
    * append an import to the module id ending with `appendTo` instead of adding a script into body
    * useful for frameworks that do not support transformIndexHtml hook (e.g. Nuxt3)
    *
@@ -170,6 +176,7 @@ export const DEFAULT_INSPECTOR_OPTIONS: VitePluginInspectorOptions = {
     process.platform === "darwin" ? "meta-shift" : "control-shift",
   toggleButtonVisibility: "always",
   toggleButtonPos: "top-right",
+  reduceMotion: false,
   appendTo: "",
   lazyLoad: false,
   launchEditor: process.env.LAUNCH_EDITOR ?? "code",

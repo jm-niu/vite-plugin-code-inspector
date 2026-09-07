@@ -1,12 +1,6 @@
 <p align="center">
-  <a href="https://github.com/hellof2e/vite-plugin-code-inspector">
-    <img src="https://raw.githubusercontent.com/hellof2e/vite-plugin-code-inspector/988a71dca91490cf4a604c98609b24f80f7eb383/logo.svg" width="180" alt="vite-plugin-code-inspector">
-  </a>
-</p>
-
-<p align="center">
   <a href="https://www.npmjs.com/package/vite-plugin-code-inspector" target="_blank" rel="noopener noreferrer"><img src="https://badgen.net/npm/v/vite-plugin-code-inspector" alt="NPM Version" /></a>
-  <a href="https://github.com/hellof2e/vite-plugin-code-inspector/blob/main/LICENSE" target="_blank" rel="noopener noreferrer"><img src="https://badgen.net/github/license/hellof2e/vite-plugin-code-inspector" alt="License" /></a>
+  <a href="https://github.com/jm-niu/vite-plugin-code-inspector/blob/main/LICENSE" target="_blank" rel="noopener noreferrer"><img src="https://badgen.net/github/license/jm-niu/vite-plugin-code-inspector" alt="License" /></a>
 </p>
 
 <h1 align="center">
@@ -170,6 +164,12 @@ inspector({
   disableInspectorOnEditorOpen?: boolean
 
   /**
+   * Reduce motion/animation of the inspector overlay
+   * @default false
+   */
+  reduceMotion?: boolean
+
+  /**
    * Hide information in VNode and produce clean html in DevTools
    *
    * Currently, it only works for Vue 3
@@ -218,7 +218,20 @@ export default defineConfig({
 
 - 本项目由 `vite-plugin-dev-inspector` 重构优化而来。
 - 集成了 `launch-ide` 包，支持多种 IDE（包括 Antigravity, VS Code, Cursor 等）的自动识别与打开。
-- 支持最新的 Vite 7.x 版本。
+- 支持最新的 Vite 8.x 版本。
+- 客户端控制 API（借鉴自 vite-plugin-vue-inspector）：
+
+```js
+// 控制开关
+window.__DEV_INSPECTOR__?.enable();
+window.__DEV_INSPECTOR__?.disable();
+window.__DEV_INSPECTOR__?.toggleEnabled();
+
+// Headless 查询（无需开启 UI，适合 E2E 测试/程序化集成）
+window.__DEV_INSPECTOR__?.findInspectorFromElement(el); // => { file, line, column } | null
+window.__DEV_INSPECTOR__?.findInspectorAtPoint(x, y); // => { file, line, column } | null
+```
+
 - Vite-plugin-code-inspector was inspired by [vite-plugin-vue-inspector](https://github.com/webfansplz/vite-plugin-vue-inspector), but it does not repy on front-end frameworks. It can support any front-end technology stack at the same time, such as Vue 2 & 3, React, Angular, Svelte, Nuxt and SSR.
 
 ## License

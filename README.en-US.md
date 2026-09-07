@@ -1,12 +1,6 @@
 <p align="center">
-  <a href="https://github.com/hellof2e/vite-plugin-code-inspector">
-    <img src="https://raw.githubusercontent.com/hellof2e/vite-plugin-code-inspector/988a71dca91490cf4a604c98609b24f80f7eb383/logo.svg" width="180" alt="vite-plugin-code-inspector">
-  </a>
-</p>
-
-<p align="center">
   <a href="https://www.npmjs.com/package/vite-plugin-code-inspector" target="_blank" rel="noopener noreferrer"><img src="https://badgen.net/npm/v/vite-plugin-code-inspector" alt="NPM Version" /></a>
-  <a href="https://github.com/hellof2e/vite-plugin-code-inspector/blob/main/LICENSE" target="_blank" rel="noopener noreferrer"><img src="https://badgen.net/github/license/hellof2e/vite-plugin-code-inspector" alt="License" /></a>
+  <a href="https://github.com/jm-niu/vite-plugin-code-inspector/blob/main/LICENSE" target="_blank" rel="noopener noreferrer"><img src="https://badgen.net/github/license/jm-niu/vite-plugin-code-inspector" alt="License" /></a>
 </p>
 
 <h1 align="center">
@@ -17,7 +11,7 @@
 
 A vite plugin which provides the ability that to jump to the local IDE when you click the element of browser automatically. It supports Vue2, Vue3, React, Svelte,Angular, SSR(All frameworks).
 
-**Supported Vite versions**: 2.x, 3.x, 4.x, 5.x, 6.x, 7.x
+**Supported Vite versions**: 2.x, 3.x, 4.x, 5.x, 6.x, 7.x, 8.x
 
 <p align="center">
 <img src="./preview.gif" alt="vite-plugin-vue-inspector">
@@ -160,6 +154,12 @@ inspector({
   disableInspectorOnEditorOpen?: boolean
 
   /**
+   * Reduce motion/animation of the inspector overlay
+   * @default false
+   */
+  reduceMotion?: boolean
+
+  /**
    * Hide information in VNode and produce clean html in DevTools
    *
    * Currently, it only works for Vue 3
@@ -208,8 +208,20 @@ export default defineConfig({
 
 - This project is refactored and optimized from `vite-plugin-dev-inspector`.
 - Integrated `launch-ide` package, supporting automatic identification and opening of various IDEs (including Antigravity, VS Code, Cursor, etc.).
-- Supports the latest Vite 7.x version.
-- Vite-plugin-code-inspector is inspired by [vite-plugin-vue-inspector](https://github.com/webfansplz/vite-plugin-vue-inspector), but it does not repy on front-end frameworks. It can support any front-end technology stack at the same time, such as Vue 2 & 3, React, Angular, Svelte, Nuxt and SSR.
+- Supports the latest Vite 8.x version.
+- Vite-plugin-code-inspector was inspired by [vite-plugin-vue-inspector](https://github.com/webfansplz/vite-plugin-vue-inspector), but it does not repy on front-end frameworks. It can support any front-end technology stack at the same time, such as Vue 2 & 3, React, Angular, Svelte, Nuxt and SSR.
+- Client control API (borrowed from vite-plugin-vue-inspector):
+
+```js
+// toggle control
+window.__DEV_INSPECTOR__?.enable();
+window.__DEV_INSPECTOR__?.disable();
+window.__DEV_INSPECTOR__?.toggleEnabled();
+
+// Headless helpers (no UI needed, useful for E2E tests / programmatic integration)
+window.__DEV_INSPECTOR__?.findInspectorFromElement(el); // => { file, line, column } | null
+window.__DEV_INSPECTOR__?.findInspectorAtPoint(x, y); // => { file, line, column } | null
+```
 
 ## License
 

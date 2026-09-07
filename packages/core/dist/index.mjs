@@ -226,6 +226,7 @@ var DEFAULT_INSPECTOR_OPTIONS = {
   toggleComboKey: process2.platform === "darwin" ? "meta-shift" : "control-shift",
   toggleButtonVisibility: "always",
   toggleButtonPos: "top-right",
+  reduceMotion: false,
   appendTo: "",
   lazyLoad: false,
   launchEditor: process2.env.LAUNCH_EDITOR ?? "code"

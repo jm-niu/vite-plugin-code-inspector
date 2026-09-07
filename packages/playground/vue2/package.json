@@ -12,9 +12,10 @@
     "vue-template-compiler": "2.7.14"
   },
   "devDependencies": {
+    "@vitejs/plugin-vue2": "^2.3.4",
+    "@vitejs/plugin-vue2-jsx": "^1.1.1",
     "sass": "^1.68.0",
-    "vite-plugin-externals": "^0.6.2",
-    "vite-plugin-code-inspector": "workspace:*",
-    "vite-plugin-vue2": "^1.9.3"
+    "vite": "^7.0.0",
+    "vite-plugin-code-inspector": "workspace:*"
   }
 }
